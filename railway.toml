@@ -1,33 +1,6 @@
 [build]
 builder = "nixpacks"
-nixpacksPlan = """
-[[phases.setup]]
-cmds = [
-    "apt-get update",
-    "apt-get install -y ffmpeg curl wget"
-]
-
-[[phases.install]]
-cmds = ["pip install -r requirements.txt"]
-
-[[start]]
-cmd = "python app.py"
-"""
-[build.args]
-FFMPEG_VERSION = "5.1.2"
-PYTHON_VERSION = "3.11"
 
 [deploy]
 startCommand = "python app.py"
-healthcheckPath = "/api/health"
-healthcheckTimeout = 30
-restartPolicyType = "on-failure"
-restartPolicyMaxRetries = 3
-
-[[services]]
-name = "web"
-port = 5000
-protocol = "http"
-
-[environments.production.variables]
-NIXPACKS_BUILD_COMMAND = "pip install -r requirements.txt"
+healthCheckPath = "/"
